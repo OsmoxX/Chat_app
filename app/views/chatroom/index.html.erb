@@ -3,56 +3,41 @@
   Say something!
 </h3>
 
-
 <div class="ui two column grid">
+
   <div class="ui twelve wide column">
-      <div class="ui fluid raised card chatbox">
-        <div class="content">
-            <div class="ui feed">
+    <div class="ui fluid raised card chatbox">
+
+      <div class="content" style="overflow-y: auto;">
+        <div class="ui feed">
+        <% @messages.each do |message| %>
           <div class="event">
             <div class="content">
               <div class="summary">
-                <a>Elliot Fu</a> added <a>Jenny Hess</a> as a friend
+                <em><%= message.user.username if message.user %></em>:
+                <%= message.body %>
               </div>
             </div>
           </div>
-          <div class="event">
-            <div class="content">
-              <div class="summary">
-                <a>Stevie Feliciano</a> added <a>Elliot Fu</a> as a friend
-              </div>
-            </div>
-          </div>
-          <div class="event">
-            <div class="content">
-              <div class="summary">
-                <a>Helen Troy</a> added <a>Christian Rocha</a> as a friend
-              </div>
-            </div>
-          </div>
-          <div class="event">
-            <div class="content">
-              <div class="summary">
-                <em>Christian Rocha</em>: Test message
-              </div>
-            </div>
-          </div>
+        <% end %>
         </div>
       </div>
-        <div class="extra content">
-          <form class="ui reply form">
-            <div class="field">
-              <div class="ui fluid icon input">
-                <input type="text" placeholder="Enter a message...">
-                <i class="bordered inverted green edit icon"></i>
-              </div>
+
+      <div class="extra content">
+        <form class="ui reply form">
+          <div class="field">
+            <div class="ui fluid icon input">
+              <input type="text" placeholder="Enter a message...">
+              <i class="bordered inverted green edit icon"></i>
             </div>
-          </form>
-        </div>
+          </div>
+        </form>
+      </div>
+
     </div>
   </div>
 
-    <div class="four wide column">
+  <div class="four wide column">
     <div class="ui fluid raised card chatbox">
       <div class="content">
         <div class="ui inverted vertical menu">
@@ -69,4 +54,5 @@
       </div>
     </div>
   </div>
+
 </div>
