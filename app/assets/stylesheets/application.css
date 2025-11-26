@@ -11,5 +11,9 @@
 
 .chatbox {
     height: 450px;
-    overflow-y: auto;
+}
+
+#messages {
+    height: 15em;
+    overflow: auto;
 }
