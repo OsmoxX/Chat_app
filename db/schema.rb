@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_11_25_192236) do
+ActiveRecord::Schema[8.0].define(version: 2025_11_26_184855) do
   create_table "messages", force: :cascade do |t|
     t.text "body"
     t.integer "user_id"
@@ -23,5 +23,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_11_25_192236) do
     t.string "password_digest"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "last_seen_at"
   end
 end

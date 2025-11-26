@@ -15,10 +15,13 @@
       </div>
 
       <div class="extra content">
-        <%= form_for(@message, html: {class: "ui reply form", role: "form"}, url: message_path, remote: true ) do |f| %>
+        <%= form_for(@message, html: 
+        {class: "ui reply form", 
+        role: "form"}, 
+        url: message_path, remote: true ) do |f| %>
           <div class="field">
             <div class="ui fluid icon input">
-              <%= f.text_field :body %>
+              <%= f.text_field :body, placeholder: "Type your message...", autofocus: true %>
               <%= f.button class: "ui green icon button" do %>
                 <i class="edit icon"></i>
               <% end %>
@@ -31,18 +34,30 @@
 
   <div class="four wide column">
     <div class="ui fluid raised card chatbox">
-      <div class="content">
-        <div class="ui inverted vertical menu">
-          <a class="active item">
-            Home
-          </a>
-          <a class="item">
-            Messages
-          </a>
-          <a class="item">
-            Friends
-          </a>
+      <div class="content" style="overflow-y: auto;">
+
+        <%= turbo_stream_from "user_status" %>
+
+        <h4 class="ui header"><i class="green circle icon"></i> Online</h4>
+        <div class="ui middle aligned selection list" id="users_online">
+          <% @users.each do |user| %>
+            <% if user.online? %>
+              <%= render "users/user_status", user: user %>
+            <% end %>
+          <% end %>
         </div>
+
+        <div class="ui divider"></div>
+
+        <h4 class="ui header"><i class="grey circle icon"></i> Offline</h4>
+        <div class="ui middle aligned selection list" id="users_offline">
+          <% @users.each do |user| %>
+            <% if !user.online? %>
+              <%= render "users/user_status", user: user %>
+            <% end %>
+          <% end %>
+        </div>
+
       </div>
     </div>
   </div>

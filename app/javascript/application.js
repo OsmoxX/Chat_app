@@ -8,6 +8,8 @@ window.scroll_bottom = function () {
         $('#messages').scrollTop($('#messages')[0].scrollHeight)
     }
 }
+
+
 $(document).on('turbo:load', function () {
     $('.ui.dropdown').dropdown();
     $('.message .close').on('click', function () {

@@ -6,7 +6,9 @@ class SessionsController < ApplicationController
   def create
     user = User.find_by(username: params[:session][:username])
     if user && user.authenticate(params[:session][:password])
+      user.appear
       session[:user_id] = user.id
+      session[:login_time] = Time.now.utc
       flash[:success] = "You have successfully logged in!"
       redirect_to root_path
     else
@@ -15,7 +17,8 @@ class SessionsController < ApplicationController
     end
   end
 
-  def  destroy
+  def destroy
+    current_user.disappear if logged_in?
     session[:user_id] = nil
     flash[:success] = "You have successfully logged out!"
     redirect_to login_path, status: :see_other
