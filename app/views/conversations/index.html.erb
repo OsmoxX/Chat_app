@@ -1,0 +1,88 @@
+<h2 class="ui center aligned icon header">
+  <i class="circular envelope open outline icon"></i>
+  Private Messages
+</h2>
+
+<div class="ui container">
+  <div class="ui stackable grid">
+
+    <div class="eleven wide column">
+      <h3 class="ui header">Your Conversations</h3>
+      <div class="ui segments">
+        <% @conversations.each do |conversation| %>
+          <% other_user = (conversation.sender == current_user) ? conversation.recipient : conversation.sender %>
+
+          <div class="ui segment">
+            <div class="ui grid">
+              <div class="twelve wide column middle aligned">
+                <h4 class="ui header">
+                  <i class="user circle icon"></i>
+                  <div class="content">
+                    <%= other_user.username %>
+                    <div class="sub header">Click open to chat</div>
+                  </div>
+                </h4>
+              </div>
+              <div class="four wide column right aligned middle aligned">
+                <%= link_to "Open", conversation_private_messages_path(conversation), class: "ui tiny primary button" %>
+              </div>
+            </div>
+          </div>
+        <% end %>
+
+        <% if @conversations.empty? %>
+          <div class="ui placeholder segment">
+            <div class="ui icon header">
+              <i class="dont icon"></i>
+              No active conversations yet. Select a user from the right!
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="five wide column">
+      <div class="ui fluid card">
+        <div class="content">
+          <div class="header">Start new chat</div>
+        </div>
+
+        <div class="content">
+          <div class="ui fluid icon input">
+            <input type="text" id="user-search-input" placeholder="Search users...">
+            <i class="search icon"></i>
+          </div>
+        </div>
+
+        <div class="content" style="max-height: 400px; overflow-y: auto;">
+          <div class="ui middle aligned selection list" id="users-list">
+            <% @users.each do |user| %>
+              <div class="item user-item">
+                <div class="right floated content">
+                  <%= link_to "Message", conversations_path(user_id: user.id),
+                              data: { turbo_method: :post },
+                              class: "ui mini basic blue button" %>
+                </div>
+                <div class="content">
+                  <div class="header username-text"><%= user.username %></div>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+    $(document).on('turbo:load', function() {
+        $('#user-search-input').on('keyup', function() {
+            var value = $(this).val().toLowerCase();
+            $("#users-list .user-item").filter(function() {
+                $(this).toggle($(this).find('.username-text').text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
+</script>

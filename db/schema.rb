@@ -10,12 +10,29 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_11_26_184855) do
+ActiveRecord::Schema[8.0].define(version: 2025_12_03_091842) do
+  create_table "conversations", force: :cascade do |t|
+    t.integer "sender_id"
+    t.integer "recipient_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "messages", force: :cascade do |t|
     t.text "body"
     t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "private_messages", force: :cascade do |t|
+    t.text "body"
+    t.integer "conversation_id", null: false
+    t.integer "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["conversation_id"], name: "index_private_messages_on_conversation_id"
+    t.index ["user_id"], name: "index_private_messages_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -25,4 +42,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_11_26_184855) do
     t.datetime "updated_at", null: false
     t.datetime "last_seen_at"
   end
+
+  add_foreign_key "private_messages", "conversations"
+  add_foreign_key "private_messages", "users"
 end

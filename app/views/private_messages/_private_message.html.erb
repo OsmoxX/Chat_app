@@ -1,0 +1,13 @@
+<div class="event" id="<%= dom_id(private_message) %>">
+  <div class="content">
+    <div class="summary">
+      <a class="ui label">
+        <%= private_message.user&.username || "Unknown User" %>
+      </a>
+      : <%= private_message.body %>
+    </div>
+    <div class="meta">
+      <small><%= time_ago_in_words(private_message.created_at) %> ago</small>
+    </div>
+  </div>
+</div>

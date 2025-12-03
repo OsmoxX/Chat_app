@@ -1,0 +1,11 @@
+class PrivateMessage < ApplicationRecord
+  belongs_to :conversation
+  belongs_to :user
+
+  validates :body, presence: true
+
+  after_create_commit {
+    broadcast_append_to conversation,
+                        target: "private_messages_list"
+  }
+end

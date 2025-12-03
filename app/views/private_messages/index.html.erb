@@ -1,0 +1,40 @@
+<h2 class="ui center aligned icon header">
+  <i class="circular user icon"></i>
+  Chat with <%= @other_user.username %>
+</h2>
+
+<div class="ui container">
+  <div class="ui fluid raised card chatbox" style="height: 600px;">
+
+    <%= turbo_stream_from @conversation %>
+
+    <div class="content" style="overflow-y: auto; flex-grow: 1;">
+      <div class="ui feed">
+        <div id="private_messages_list">
+          <%= render @messages %>
+        </div>
+      </div>
+    </div>
+
+    <div class="extra content">
+      <%= form_with(model: [@conversation, @message],
+                    local: true,
+                    class: "ui reply form",
+                    data: { controller: "reset-form", action: "turbo:submit-end->reset-form#reset" }) do |f| %>
+        <div class="field">
+          <div class="ui fluid action input">
+            <%= f.text_field :body, placeholder: "Type a message...", autocomplete: "off" %>
+            <%= f.button class: "ui teal icon button" do %>
+              <i class="paper plane icon"></i> Send
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+  </div>
+
+  <div class="ui container" style="margin-top: 20px;">
+    <%= link_to "Back to Conversations", conversations_path, class: "ui button" %>
+  </div>
+</div>

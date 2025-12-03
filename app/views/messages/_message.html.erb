@@ -1,8 +1,15 @@
-<div class="event">
+<div class="event" id="<%= dom_id(message) %>">
   <div class="content">
     <div class="summary">
-      <em><%= message.user.username if message.user %></em>:
-      <%= message.body %>
+      <a class="ui label <%= 'blue' if message.user == current_user %>">
+        <%= message.user.username %>
+      </a>
+
+      : <%= message.body %>
+    </div>
+
+    <div class="meta">
+      <small><%= time_ago_in_words(message.created_at) %> ago</small>
     </div>
   </div>
 </div>

@@ -14,6 +14,10 @@ Rails.application.routes.draw do
   delete "logout", to: "sessions#destroy"
   post "message", to: "messages#create"
 
+  resources :conversations do
+    resources :private_messages
+  end
+
 
   mount ActionCable.server, at: "/cable"
   # Render dynamic PWA files from app/views/pwa/* (remember to link manifest in application.html.erb)
